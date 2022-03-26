@@ -8,6 +8,7 @@ create table users (
 
 create table task (
     task_id serial primary key not null, -- primary key
+    user_id integer not null, -- foreign key
     title varchar(255) not null, -- title of the task
     description varchar(255), -- description of the task
     created_on TIMESTAMP default current_timestamp, -- date the task was created
@@ -18,9 +19,9 @@ create table task (
     completed boolean default false -- whether the task is completed
 );
 
-create table users_tasks (
-    user_id integer not null,
-    task_id integer not null,
-    primary key (user_id, task_id)
-);
+-- create table users_tasks (
+--     user_id integer not null,
+--     task_id integer not null,
+--     primary key (user_id, task_id)
+-- );
 

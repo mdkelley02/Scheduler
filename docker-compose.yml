@@ -11,5 +11,3 @@ services:
     - "8080:80"
     volumes:
     - .:/var/www
-    depends_on:
-    - db

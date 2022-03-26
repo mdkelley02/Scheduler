@@ -4,6 +4,7 @@ namespace App\api\auth;
 
 use App\api\auth\AuthService;
 use App\Controller;
+use App\Response;
 
 function marshall_login(array $request_body)
 {
@@ -53,10 +54,12 @@ class AuthController extends Controller
             $email = $request['body']['email'];
             $password = hash('sha256', $request['body']['password']);
             try {
-                $token = $this->auth_service->login($email, $password);
-                echo json_encode(["success" => "User logged in"]);
+                $jwt = $this->auth_service->login($email, $password);
+                $response = new Response("Content-Type: application/json", "Login successful", ["jwt" => $jwt]);
+                $response->send();
             } catch (\Exception$e) {
-                echo json_encode(["error" => $e->getMessage()]);
+                $response = new Response("Content-Type: application/json", "Login failed", ["error" => $e->getMessage()], 401);
+                $response->send();
                 return;
             }
         });
@@ -64,14 +67,23 @@ class AuthController extends Controller
         $api::register_endpoint("POST", "/register", function (array $request) {
             $marshall_rc = marshall_register($request['body']);
             if (!$marshall_rc) {
+                header("HTTP/1.1 400 Bad Request");
                 echo json_encode(["error" => "Invalid payload for user creation"]);
                 return;
             }
             $full_name = $request['body']['full_name'];
             $email = $request['body']['email'];
             $password = hash('sha256', $request['body']['password']);
-            $this->auth_service->register($full_name, $email, $password);
+            try {
+                $this->auth_service->register($full_name, $email, $password);
+                $response = new Response("Content-Type: application/json", "User creation successful");
+                $response->send();
+            } catch (\Exception$e) {
+                $response = new Response("Content-Type: application/json", "User creation failed", ["error" => $e->getMessage()], 400);
+                $response->send();
+                return;
+            }
         });
-
     }
+
 }

@@ -1,0 +1,122 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  font-size: 20px;
+  --primary-color: #f5f5f5;
+  --cta-color: #688aff;
+  --cta-gradient: linear-gradient(to right, #688aff, #4776e6);
+  --bg-color: #f0efef;
+  --text-color: rgb(68, 68, 68);
+  font-family: "Poppins", sans-serif;
+  background: #f0efef;
+}
+
+@media (max-width: 992px) {
+  html {
+    font-size: 18px;
+  }
+}
+@media (min-width: 1200px) {
+  html {
+    font-size: 19px;
+  }
+}
+@media (min-width: 1400px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+/* input ------------------------------------------ */
+input {
+  all: unset;
+  display: block;
+  font-family: "Poppins", sans-serif;
+  border: 2px solid var(--text-color);
+  border-radius: 5px;
+  margin: 0.5rem 0;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+  width: calc(100% - 1rem - 4px);
+  display: inline-block;
+}
+input:active,
+input:hover,
+input:focus {
+  border: 2px solid var(--cta-color);
+  transition: all 0.1s ease-in-out;
+}
+
+/* button ------------------------------------------ */
+button {
+  all: unset;
+  font-family: "Poppins", sans-serif;
+  border-radius: 5px;
+  margin: 1rem 0;
+  padding: 0.4rem 0.6rem;
+  background-color: var(--cta-color);
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+}
+button:hover {
+  background-color: rgba(104, 138, 255, 0.3);
+  color: var(--cta-color);
+  transition: all 0.1s ease-in-out;
+}
+
+/* anchor ------------------------------------------ */
+a {
+  all: unset;
+  font-family: "Poppins", sans-serif;
+  color: var(--cta-color);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
+/*  */
+p {
+  all: unset;
+  display: block;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  margin: 0.5rem 0;
+}
+
+h2 {
+  all: unset;
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: black;
+  margin: 0.25rem 0;
+}
+h3 {
+  all: unset;
+  font-size: 1.4rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: black;
+  margin: 0.25rem 0;
+}
+h4 {
+  all: unset;
+  font-size: 1.2rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: black;
+  margin: 0.25rem 0;
+}
+
+.d-none {
+  display: none;
+}
