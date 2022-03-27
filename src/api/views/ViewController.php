@@ -25,5 +25,13 @@ class ViewController extends Controller
             require_once __DIR__ . "/templates/Register.php";
         });
 
+        $api->register_endpoint("GET", "/create-task", function (array $request) {
+            require_once __DIR__ . "/templates/CreateTask.php";
+        });
+
+        $api->register_endpoint("GET", "/calendar", function (array $request) {
+            require_once __DIR__ . "/templates/Calendar.php";
+        });
+
     }
 }

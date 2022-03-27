@@ -39,13 +39,12 @@ class AuthService
 
     private function encode_jwt(string $email, $user_id)
     {
-        $plus_60_minutes = time() + (60 * 60);
         $key = getenv('JWT_SECRET');
         $payload = [
             'iss' => getenv('JWT_ISSUER'),
             'aud' => getenv('JWT_AUDIENCE'),
             'iat' => time(),
-            'nbf' => time() + $plus_60_minutes,
+            'exp' => time() + 3600,
             'user_id' => $user_id,
             'email' => $email,
         ];

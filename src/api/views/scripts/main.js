@@ -17,7 +17,9 @@ class LocalStorage {
 }
 
 class SchedulerApiClient {
-  constructor() {}
+  constructor(token) {
+    this.token = token;
+  }
   login = (email, password) => {
     return fetch("/auth/login", {
       method: "POST",
@@ -44,5 +46,28 @@ class SchedulerApiClient {
     });
   };
   getAllTasks = () => {};
-  createTask = (task) => {};
+  createTask = (
+    title,
+    description,
+    dueDate,
+    startTime,
+    endTime,
+    timeToComplete
+  ) => {
+    return fetch("/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.token}`,
+      },
+      body: JSON.stringify({
+        title: title,
+        description: description,
+        due_date: dueDate,
+        start_time: startTime,
+        end_time: endTime,
+        time_to_complete: timeToComplete,
+      }),
+    });
+  };
 }

@@ -1,0 +1,18 @@
+.home-aside {
+  padding: 0 2rem;
+}
+.home-aside-card {
+  padding: 2rem;
+  background: white;
+  border-radius: 5px;
+}
+.task-field {
+  margin-bottom: 1.5rem;
+}
+.task-field-key {
+  font-size: 1.3rem;
+  color: black;
+}
+.task-field-value {
+  color: var(--text-color);
+}

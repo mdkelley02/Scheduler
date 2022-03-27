@@ -1,0 +1,13 @@
+.task {
+  background-color: rgba(104, 138, 255, 0.3);
+  color: var(--cta-color);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 5px;
+}
+.task:hover {
+  background: var(--cta-color);
+  color: white;
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
+}

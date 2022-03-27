@@ -6,40 +6,101 @@ namespace App\api\tasks;
 use App\api\auth\AuthService;
 use App\api\tasks\TaskDao;
 use App\Controller;
+use App\Response;
+
+function marshall_task_create($request_body)
+{
+    $available_fields = [
+        'title',
+        'description',
+        'time_to_complete',
+        'due_date',
+        'start_time',
+        'end_time',
+    ];
+    if (!isset($request_body['title'])) {
+        return false;
+    }
+    if (!is_string($request_body['title'])) {
+        return false;
+    }
+    if (sizeof($request_body) > sizeof($available_fields)) {
+        return false;
+    }
+    foreach ($request_body as $key => $value) {
+        if (!in_array($key, $available_fields)) {
+            return false;
+        }
+        if (!is_string($value)) {
+            return false;
+        }
+        if (strlen($value) < 1) {
+            return false;
+        }
+    }
+    return true;
+}
 
 class TaskController extends Controller
 {
     private $task_dao;
     private $api;
+    private $auth_service;
 
     public function __construct()
     {
         parent::__construct("/tasks");
         $api = $this;
         $this->task_dao = new TaskDao();
+        $this->auth_service = new AuthService();
 
-        $api->register_middleware(function ($request, $next) {
-            $auth_service = new AuthService();
-            $jwt = $request->get_header("Authorization");
-            if (!$jwt) {
-                return json_encode([
-                    "error" => "No JWT provided",
-                ]);
+        $api->register_middleware("/", function ($request, callable $next) {
+            $authorization = getallheaders()['Authorization'];
+            if (!$authorization) {
+                $response = new Response("application/json", "Unauthorized", ["error" => "Missing Authorization header"], 400);
+                $response->send();
+                return;
             }
+            $jwt = explode(' ', $authorization)[1];
             try {
-                $decoded_jwt = $auth_service->decode_jwt($jwt);
+                $decoded_jwt = $this->auth_service->decode_jwt($jwt);
+                $request['decoded_jwt'] = $decoded_jwt;
             } catch (\Exception$e) {
-                return json_encode([
-                    "error" => $e->getMessage(),
-                ]);
+                $response = new Response("application/json", "Unauthorized request", ["error" => $e->getMessage()], 400);
+                $response->send();
+                return;
             }
-            $request['jwt_payload'] = $decoded_jwt;
             return $next($request);
         });
 
-        $api->register_endpoint("GET", "/", function () use ($api) {
-            $tasks = $api->task_dao->get_all_tasks();
-            $api->render_json($tasks);
+        $api->register_endpoint("POST", "/", function ($request) {
+            $marshall_rc = marshall_task_create($request["body"]);
+            if (!$marshall_rc) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Incorrect payload for task creation"], 400);
+                $response->send();
+                return;
+            }
+            $user_id = $request["decoded_jwt"]["user_id"];
+            if (!$user_id) {
+                $response = new Response("application/json", "Invalid request", null, 400);
+                $response->send();
+                return;
+            }
+            try {
+                $this->task_dao->create_task(
+                    $user_id,
+                    $request["body"]["title"],
+                    $request["body"]["description"],
+                    $request["body"]["time_to_complete"],
+                    $request["body"]["due_date"],
+                    $request["body"]["start_time"],
+                    $request["body"]["end_time"]
+                );
+            } catch (\Exception$e) {
+                $response = new Response("application/json", "Invalid request", null, 400);
+                $response->send();
+                return;
+            }
         });
     }
 

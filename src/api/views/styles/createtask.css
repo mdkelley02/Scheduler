@@ -1,0 +1,9 @@
+.create-task-card {
+  background: white;
+  border-radius: 5px;
+  padding: 2rem;
+  border: 1px solid #ccc;
+}
+.error-dialog {
+  opacity: 0;
+}
