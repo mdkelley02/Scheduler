@@ -52,7 +52,7 @@ class TaskController extends Controller
 
         $api->register_middleware("/", function ($request, callable $next) {
             $authorization = getallheaders()['Authorization'];
-            echo var_dump(getallheaders());
+            echo var_dump($authorization);
             return;
             if (!$authorization) {
                 $response = new Response("application/json", "Unauthorized", ["error" => "Missing Authorization header"], 400);
