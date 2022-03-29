@@ -26,9 +26,3 @@ namespace App\api\views;
 </body>
 
 
-
-
-<script>
-    <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
-</script>
-
