@@ -25,7 +25,7 @@ class SchedulerApiClient {
   };
 
   login = (email, password) => {
-    return fetch("/auth/login", {
+    return fetch("/public/index.php/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ class SchedulerApiClient {
   };
 
   register = (name, email, password) => {
-    return fetch("/auth/register", {
+    return fetch("/public/index.php/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ class SchedulerApiClient {
   };
 
   getAllTasks = () => {
-    return fetch("/tasks", {
+    return fetch("/public/index.php/tasks", {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
@@ -76,7 +76,7 @@ class SchedulerApiClient {
     endTime,
     timeToComplete
   ) => {
-    return fetch("/tasks/", {
+    return fetch("/public/index.php/tasks/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -99,7 +99,7 @@ class SchedulerApiClient {
   };
 
   deleteTask = (task_id) => {
-    return fetch(`/app/tasks/?task_id=${task_id}`, {
+    return fetch(`/public/index.php/app/tasks/?task_id=${task_id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${this.token}`,
