@@ -59,8 +59,6 @@ class TaskController extends Controller
             }
             $jwt = explode(' ', $authorization)[1];
             try {
-                $decoded_jwt = $this->auth_service->decode_jwt($jwt);
-                echo var_dump($decoded_jwt);
                 return;
                 $request['decoded_jwt'] = $decoded_jwt;
             } catch (\Exception$e) {
@@ -112,6 +110,8 @@ class TaskController extends Controller
             }
             try {
                 $tasks = $this->task_dao->get_all_tasks($user_id);
+                echo json_encode($tasks);
+                return;
                 $response = new Response("application/json", "Tasks retrieved", ["tasks" => $tasks], 200);
                 $response->send();
             } catch (\Exception$e) {
