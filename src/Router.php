@@ -30,20 +30,21 @@ class Router
     {
         $hacky_prepend = "/public/index.php";
 
-        $request = $_SERVER;
-        echo var_dump($request);
-        return;
+        $_request = $_SERVER;
+
+        echo var_dump($_request);
+
         if (!empty(file_get_contents('php://input')) && !json_decode(file_get_contents('php://input'))) {
             echo json_encode(["error" => "Invalid JSON body"]);
             return;
         }
-        $request["body"] = (array) json_decode(file_get_contents('php://input'));
+        $_request["body"] = (array) json_decode(file_get_contents('php://input'));
 
         // check if middleware exists
         $middleware = null;
         foreach ($this->controllers as $controller) {
             foreach ((array) $controller->middleware as $_middleware) {
-                if ($hacky_prepend . $controller->prefix . $_middleware['path'] === $request['REDIRECT_URL'] || $hacky_prepend . $controller->prefix . $_middleware['path'] === $request['REDIRECT_URL'] . '/') {
+                if ($hacky_prepend . $controller->prefix . $_middleware['path'] === $_request['REDIRECT_URL'] || $hacky_prepend . $controller->prefix . $_middleware['path'] === $_request['REDIRECT_URL'] . '/') {
                     $middleware = $_middleware;
                 }
             }
@@ -52,19 +53,19 @@ class Router
         $handler = null;
         foreach ($this->controllers as $controller) {
             foreach ((array) $controller->handlers as $_handler) {
-                if ($request['REQUEST_METHOD'] !== $_handler['method']) {
+                if ($_request['REQUEST_METHOD'] !== $_handler['method']) {
                     continue;
                 }
-                if ($hacky_prepend . $controller->prefix . $_handler['path'] === $request['REDIRECT_URL'] || $hacky_prepend . $controller->prefix . $_handler['path'] === $request['REDIRECT_URL'] . '/') {
+                if ($hacky_prepend . $controller->prefix . $_handler['path'] === $_request['REDIRECT_URL'] || $hacky_prepend . $controller->prefix . $_handler['path'] === $_request['REDIRECT_URL'] . '/') {
                     $handler = $_handler;
                 }
             }
         }
         // if handler has associated middleware, run middleware and pass the handler
         if ($handler !== null && $middleware !== null) {
-            $middleware['handler']($request, $handler['handler']);
+            $middleware['handler']($_request, $handler['handler']);
         } elseif ($handler !== null) {
-            $handler['handler']($request);
+            $handler['handler']($_request);
         } else {
             echo json_encode(["error" => "Route does not exist"]);
         }
