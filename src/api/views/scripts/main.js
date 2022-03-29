@@ -20,6 +20,10 @@ class SchedulerApiClient {
   constructor(token) {
     this.token = token;
   }
+  handleExpiredToken = () => {
+    window.location.href = "/app/login";
+  };
+
   login = (email, password) => {
     return fetch("/auth/login", {
       method: "POST",
@@ -32,6 +36,7 @@ class SchedulerApiClient {
       }),
     });
   };
+
   register = (name, email, password) => {
     return fetch("/auth/register", {
       method: "POST",
@@ -45,7 +50,24 @@ class SchedulerApiClient {
       }),
     });
   };
-  getAllTasks = () => {};
+
+  getAllTasks = () => {
+    return fetch("/tasks", {
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    }).then((response) => {
+      if (response.status === 401) {
+        this.handleExpiredToken();
+      }
+      return response.json();
+    });
+  };
+
+  getIncompleteTasks = () => {};
+
+  getCompletedTasks = () => {};
+
   createTask = (
     title,
     description,
@@ -54,7 +76,7 @@ class SchedulerApiClient {
     endTime,
     timeToComplete
   ) => {
-    return fetch("/auth/register", {
+    return fetch("/tasks/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,6 +90,25 @@ class SchedulerApiClient {
         end_time: endTime,
         time_to_complete: timeToComplete,
       }),
+    }).then((response) => {
+      if (response.status === 401) {
+        this.handleExpiredToken();
+      }
+      return response.json();
+    });
+  };
+
+  deleteTask = (task_id) => {
+    return fetch(`/app/tasks/?task_id=${task_id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    }).then((response) => {
+      if (response.status === 401) {
+        this.handleExpiredToken();
+      }
+      return response.json();
     });
   };
 }

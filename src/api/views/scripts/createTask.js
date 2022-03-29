@@ -14,8 +14,9 @@ class View {
   initDatepickers = () => {
     const elements = [this.startTime, this.endTime, this.dueDate];
     elements.forEach((element) => {
-      new Datepicker(element, {
-        buttonClass: "button",
+      flatpickr(element, {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
       });
     });
   };
@@ -41,9 +42,8 @@ class Controller {
         this.view.endTime.value,
         this.view.timeToComplete.value
       )
-      .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        window.location.href = "/app/";
       })
       .catch((error) => console.error(error));
   };

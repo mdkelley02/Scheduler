@@ -8,18 +8,20 @@ namespace App\api\views;
 </style>
 
 <div class="tasks">
-
-    <div class="task">
-        <div class="d-flex justify-content-between">
-            <div id="title">Lick my taint</div>
-            <div id="due-date">March 25, 2022</div>
+    <div class="row">
+        <div class="col-7">
+            <div id="tasksContainer">
+            </div>
         </div>
-    </div>
 
-    <div class="task">
-        <div class="d-flex justify-content-between">
-            <div id="title">Lick my balls</div>
-            <div id="due-date">March 31, 2022</div>
+        <div class="col-5">
+            <div id="taskPreviewContainer">
+            </div>
         </div>
+
     </div>
 </div>
+
+<script>
+    <?php echo file_get_contents(__DIR__ . "/../scripts/tasks.js", true); ?>
+</script>

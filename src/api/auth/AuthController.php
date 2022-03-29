@@ -31,6 +31,9 @@ function marshall_register(array $request_body)
     if (strlen($request_body['full_name']) < 1 || strlen($request_body['email']) < 1 || strlen($request_body['password']) < 1) {
         return false;
     }
+    if (!preg_match('/^[^@]+@[^@]+\.[^@]+$/', $request_body['email'])) {
+        return false;
+    }
     return true;
 }
 

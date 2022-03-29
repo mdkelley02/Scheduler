@@ -11,10 +11,10 @@ namespace App\api\views;
 <?php require_once __DIR__ . "/../components/Header.php"?>
 <body class="home-page">
     <div class="row">
-        <div class="col-xl-2 col-lg-4 col-md-4">
+        <div class="col-xl-3 col-lg-4 col-md-4">
             <?php require_once __DIR__ . "/../components/Sidemenu.php"?>
         </div>
-        <div class="col-xl-10 col-lg-8 col-md-8">
+        <div class="col-xl-9 col-lg-8 col-md-8">
             <?php require_once __DIR__ . "/../components/CalendarHeader.php"?>
             <div class="row">
                 <div class="col-7">

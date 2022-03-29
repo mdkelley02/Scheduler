@@ -8,7 +8,7 @@ namespace App\api\views;
 </style>
 
 <div class="header">
-    <div class="my-3">
+    <div class="py-3">
         <h2 class="scheduler-logo ml-4">Scheduler</h2>
     </div>
 </div>

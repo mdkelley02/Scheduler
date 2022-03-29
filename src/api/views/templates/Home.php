@@ -8,28 +8,23 @@ namespace App\api\views;
 <style>
     <?php echo file_get_contents(__DIR__ . "/../styles/home.css", true); ?>
 </style>
+<script>
+    <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
+</script>
 <?php require_once __DIR__ . "/../components/Header.php"?>
 <body class="home-page">
     <div class="row">
-        <div class="col-xl-2 col-lg-4 col-md-4">
+        <div class="col-xl-3 col-lg-3 col-md-4">
             <?php require_once __DIR__ . "/../components/Sidemenu.php"?>
         </div>
-        <div class="col-xl-10 col-lg-8 col-md-8">
+        <div class="col-xl-9 col-lg-9 col-md-8">
             <?php require_once __DIR__ . "/../components/HomeHeader.php"?>
-            <div class="row">
-                <div class="col-7">
-                    <?php require_once __DIR__ . "/../components/Tasks.php"?>
-                </div>
-                <div class="col-5">
-                <?php require_once __DIR__ . "/../components/Homeaside.php"?>
-                </div>
+            <div class="tasks-wrapper">
+                <?php require_once __DIR__ . "/../components/Tasks.php"?>
             </div>
         </div>
     </div>
 </body>
-<script>
-    <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
-</script>
 <script>
     <?php echo file_get_contents(__DIR__ . "/../scripts/home.js", true); ?>
 </script>

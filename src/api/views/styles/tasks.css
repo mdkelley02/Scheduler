@@ -11,3 +11,24 @@
   transition: all 0.1s ease-in-out;
   cursor: pointer;
 }
+#taskContainer {
+  height: calc(100vh - 5rem);
+  overflow-y: scroll;
+}
+#taskPreviewContainer {
+  position: fixed;
+}
+.task__preview__field {
+  margin-bottom: 1rem;
+}
+.task-preview__label {
+  font-size: 1.2rem;
+  color: black;
+  margin-bottom: 0.1rem;
+}
+.task-preview__value {
+  color: var(--text-color);
+}
+.task-preview__title {
+  font-size: 1.5rem;
+}

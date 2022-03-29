@@ -3,6 +3,7 @@
   border-radius: 5px;
   padding: 2rem;
   border: 1px solid #ccc;
+  margin: 0 3rem;
 }
 .error-dialog {
   opacity: 0;

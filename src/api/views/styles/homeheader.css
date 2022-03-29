@@ -1,7 +1,18 @@
 .header-item {
   margin-right: 1rem;
 }
+.header-item a {
+  all: unset;
+}
 .date-picker-button {
+  background: rgb(190, 190, 190);
+  color: white;
+}
+.filter-button {
+  background: rgb(190, 190, 190);
+  color: white;
+}
+.sort-button {
   background: rgb(190, 190, 190);
   color: white;
 }

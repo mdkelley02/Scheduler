@@ -30,11 +30,23 @@ class TaskDao
         ];
     }
 
-    public function create_task(
-        $user_id, $title, $description,
-        $time_to_complete, $due_date, $start_time, $end_time
-    ) {
-            $sql = "insert into tasks (
+    public function create_task($user_id, $title, $description, $time_to_complete, $due_date, $start_time, $end_time)
+    {
+        $fields = [
+            'user_id' => $user_id,
+            'title' => $title,
+            'description' => $description,
+            'time_to_complete' => $time_to_complete,
+            'due_date' => $due_date,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+        ];
+        foreach ($fields as $key => $value) {
+            if (empty($value)) {
+                $fields[$key] = null;
+            }
+        }
+        $sql = "insert into tasks (
                     user_id,
                     title,
                     description,
@@ -53,15 +65,33 @@ class TaskDao
                     :due_date,
                     :time_to_complete,
                     false
-                )";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':user_id', $user_id);
-            $stmt->bindParam(':title', $title);
-            $stmt->bindParam(':description', $description);
-            $stmt->bindParam(':start_time', $start_time);
-            $stmt->bindParam(':end_time', $end_time);
-            $stmt->bindParam(':due_date', $due_date);
-            $stmt->bindParam(':time_to_complete', $time_to_complete);
-            $stmt->execute();
+                );";
+        $stmt = $this->conn->prepare($sql);
+        foreach ($fields as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+        $stmt->execute();
+    }
+
+    public function get_all_tasks($user_id)
+    {
+        $sql = "select * from tasks where user_id = :user_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(":user_id", $user_id);
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+        $tasks = [];
+        foreach ($rows as $row) {
+            $tasks[] = $this->row_to_task($row);
+        }
+        return $tasks;
+    }
+
+    public function delete_task($task_id)
+    {
+        $sql = "delete from tasks where task_id = :task_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(":task_id", $task_id);
+        $stmt->execute();
     }
 }

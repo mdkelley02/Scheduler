@@ -28,14 +28,10 @@ function marshall_task_create($request_body)
         return false;
     }
     foreach ($request_body as $key => $value) {
-        if (!in_array($key, $available_fields)) {
-            return false;
-        }
-        if (!is_string($value)) {
-            return false;
-        }
-        if (strlen($value) < 1) {
-            return false;
+        if (in_array($key, $available_fields)) {
+            if (!is_string($value)) {
+                return false;
+            }
         }
     }
     return true;
@@ -66,7 +62,7 @@ class TaskController extends Controller
                 $decoded_jwt = $this->auth_service->decode_jwt($jwt);
                 $request['decoded_jwt'] = $decoded_jwt;
             } catch (\Exception$e) {
-                $response = new Response("application/json", "Unauthorized request", ["error" => $e->getMessage()], 400);
+                $response = new Response("application/json", "Unauthorized request", ["error" => $e->getMessage()], 401);
                 $response->send();
                 return;
             }
@@ -82,7 +78,7 @@ class TaskController extends Controller
             }
             $user_id = $request["decoded_jwt"]["user_id"];
             if (!$user_id) {
-                $response = new Response("application/json", "Invalid request", null, 400);
+                $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
                 $response->send();
                 return;
             }
@@ -96,6 +92,26 @@ class TaskController extends Controller
                     $request["body"]["start_time"],
                     $request["body"]["end_time"]
                 );
+                $response = new Response("application/json", "Task created", ["payload" => $request["body"]], 201);
+                $response->send();
+            } catch (\Exception$e) {
+                $response = new Response("application/json", "Invalid request", null, 400);
+                $response->send();
+                return;
+            }
+        });
+
+        $api->register_endpoint("GET", "/", function ($request) {
+            $user_id = $request["decoded_jwt"]["user_id"];
+            if (!$user_id) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
+                $response->send();
+                return;
+            }
+            try {
+                $tasks = $this->task_dao->get_all_tasks($user_id);
+                $response = new Response("application/json", "Tasks retrieved", ["tasks" => $tasks], 200);
+                $response->send();
             } catch (\Exception$e) {
                 $response = new Response("application/json", "Invalid request", null, 400);
                 $response->send();
