@@ -13,8 +13,6 @@ use App\Response;
 
 function marshall_task_create($request_body)
 {
-    echo var_dump($request_body);
-    return;
     $available_fields = [
         'title',
         'description',
@@ -23,7 +21,7 @@ function marshall_task_create($request_body)
         'start_time',
         'end_time',
     ];
-    if (!isset($request_body['title'])) {
+    if (!key_exists('title', $request_body)) {
         return false;
     }
     if (!is_string($request_body['title'])) {
@@ -33,7 +31,7 @@ function marshall_task_create($request_body)
         return false;
     }
     foreach ($request_body as $key => $value) {
-        if (in_array($key, $available_fields)) {
+        if (key_exists($key, $available_fields)) {
             if (!is_string($value)) {
                 return false;
             }
@@ -82,7 +80,6 @@ class TaskController extends Controller
 
         $api->register_endpoint("POST", "/", function ($request) {
             $marshall_rc = marshall_task_create($request["body"]);
-            return;
             if (!$marshall_rc) {
                 $response = new Response("application/json", "Invalid request", ["error" => "Incorrect payload for task creation"], 400);
                 $response->send();
