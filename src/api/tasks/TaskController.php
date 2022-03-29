@@ -69,8 +69,8 @@ class TaskController extends Controller
             }
             try {
                 $decoded_jwt = $this->auth_service->decode_jwt($jwt);
-                $new_request = array_merge($request, ["decoded_jwt" => $decoded_jwt]);
-                echo var_dump($new_request);
+                // $new_request = array_copy($request, ["user_id" => $decoded_jwt->user_id]);
+                echo var_dump($decoded_jwt);
                 return;
                 return $next($request);
             } catch (\Exception$e) {
