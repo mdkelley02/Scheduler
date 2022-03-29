@@ -79,6 +79,8 @@ class TaskController extends Controller
         });
 
         $api->register_endpoint("POST", "/", function ($request) {
+            echo var_dump($request);
+            return;
             $marshall_rc = marshall_task_create($request["body"]);
             if (!$marshall_rc) {
                 $response = new Response("application/json", "Invalid request", ["error" => "Incorrect payload for task creation"], 400);
@@ -111,6 +113,8 @@ class TaskController extends Controller
         });
 
         $api->register_endpoint("GET", "/", function ($request) {
+            echo var_dump($request);
+            return;
             $user_id = $request["decoded_jwt"]["user_id"];
             if (!$user_id) {
                 $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
