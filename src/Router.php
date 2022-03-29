@@ -61,8 +61,6 @@ class Router
         }
         // if handler has associated middleware, run middleware and pass the handler
         if ($handler !== null && $middleware !== null) {
-            echo var_dump($handler['handler']);
-            return;
             $middleware['handler']($_request, $handler['handler']);
         } elseif ($handler !== null) {
             $handler['handler']($_request);
