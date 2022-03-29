@@ -35,10 +35,6 @@ namespace App\api\views;
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-
-<script>
-    <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
-</script>
 <script>
     <?php echo file_get_contents(__DIR__ . "/../scripts/createTask.js", true); ?>
 </script>

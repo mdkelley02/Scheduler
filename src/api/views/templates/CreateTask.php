@@ -8,6 +8,9 @@ namespace App\api\views;
 <style>
     <?php echo file_get_contents(__DIR__ . "/../styles/createtask.css", true); ?>
 </style>
+<script>
+    <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
+</script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <?php require_once __DIR__ . "/../components/Header.php"?>
 <body class="home-page">
