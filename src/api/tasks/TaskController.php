@@ -66,6 +66,7 @@ class TaskController extends Controller
                 $response->send();
                 return;
             }
+            echo var_dump($request, $next);
             return $next($request);
         });
 
