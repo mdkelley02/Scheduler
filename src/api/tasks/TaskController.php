@@ -110,8 +110,6 @@ class TaskController extends Controller
             }
             try {
                 $tasks = $this->task_dao->get_all_tasks($user_id);
-                echo json_encode($tasks);
-                return;
                 $response = new Response("application/json", "Tasks retrieved", ["tasks" => $tasks], 200);
                 $response->send();
             } catch (\Exception$e) {
