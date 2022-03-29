@@ -76,9 +76,9 @@ class TaskDao
     public function get_all_tasks($user_id)
     {
         $sql = "select * from tasks where user_id = :user_id";
-        echo $sql;
-        return;
         $stmt = $this->conn->prepare($sql);
+        echo var_dump($stmt);
+        return;
         $stmt->bindValue(":user_id", $user_id);
         $stmt->execute();
         $rows = $stmt->fetchAll();
