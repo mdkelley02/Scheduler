@@ -117,13 +117,11 @@ class TaskController extends Controller
                 $response->send();
                 return;
             }
-            echo "kill myself";
-            return;
             try {
                 $tasks = $this->task_dao->get_all_tasks($user_id);
                 $response = new Response("application/json", "Tasks retrieved", ["tasks" => $tasks], 200);
                 $response->send();
-            } catch (\Exception$e) {
+            } catch (Exception $e) {
                 $response = new Response("application/json", "Invalid request", null, 400);
                 $response->send();
                 return;
