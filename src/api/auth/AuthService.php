@@ -37,7 +37,7 @@ class AuthService
         $this->user_dao->create_user($full_name, $email, $password);
     }
 
-    private function encode_jwt(string $email, $user_id)
+    private function encode_jwt($email, $user_id)
     {
         $key = getenv('JWT_SECRET');
         $payload = [
@@ -52,9 +52,11 @@ class AuthService
         return $jwt;
     }
 
-    public function decode_jwt(string $jwt)
+    public function decode_jwt($jwt)
     {
+        echo "decoding jwt";
         $key = getenv('JWT_SECRET');
+        echo $key;
         $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
         return (array) $decoded;
     }
