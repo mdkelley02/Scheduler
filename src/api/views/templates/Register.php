@@ -23,7 +23,7 @@ namespace App\api\views;
                         <div><input type="text" id="email" placeholder="Email"></div>
                         <div><input type="password" id="password" placeholder="Password"></div>
                         <div><input type="password" id="confirmPassword" placeholder="Confirm Password"></div>
-                        <div><p>Already have an account? <a href="/app/login">Login</a></p></div>
+                        <div><p>Already have an account? <a href="/public/index.php/app/login">Login</a></p></div>
                         <div class="mt-2"><button id="registerButton">Register</button></div>
                     </div>
                 </div>
