@@ -79,8 +79,6 @@ class TaskController extends Controller
         });
 
         $api->register_endpoint("POST", "/", function ($request) {
-            echo var_dump($request);
-            return;
             $marshall_rc = marshall_task_create($request["body"]);
             if (!$marshall_rc) {
                 $response = new Response("application/json", "Invalid request", ["error" => "Incorrect payload for task creation"], 400);
