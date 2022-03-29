@@ -79,9 +79,9 @@ class TaskDao
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(":user_id", $user_id);
         $stmt->execute();
-        echo var_dump($stmt);
-        return;
         $rows = $stmt->fetchAll();
+        echo var_dump($rows);
+        return;
         $tasks = [];
         foreach ($rows as $row) {
             $tasks[] = $this->row_to_task($row);
