@@ -54,9 +54,8 @@ class AuthService
 
     public function decode_jwt($jwt)
     {
-        echo var_dump($jwt);
-        return;
         $key = getenv('JWT_SECRET');
+        echo var_dump($key);
         $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
         return (array) $decoded;
     }
