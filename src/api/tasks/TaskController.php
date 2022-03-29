@@ -112,13 +112,13 @@ class TaskController extends Controller
 
         $api->register_endpoint("GET", "/", function ($request) {
             $user_id = $request["decoded_jwt"]["user_id"];
-            echo var_dump($user_id);
-            return;
             if (!$user_id) {
                 $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
                 $response->send();
                 return;
             }
+            echo "kill myself";
+            return;
             try {
                 $tasks = $this->task_dao->get_all_tasks($user_id);
                 $response = new Response("application/json", "Tasks retrieved", ["tasks" => $tasks], 200);
