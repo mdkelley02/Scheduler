@@ -84,8 +84,6 @@ class TaskDao
         foreach ($rows as $row) {
             $tasks[] = $row;
         }
-        echo var_dump($tasks);
-        return;
         return $tasks;
     }
 
