@@ -69,8 +69,7 @@ class TaskController extends Controller
             }
             try {
                 $decoded_jwt = $this->auth_service->decode_jwt($jwt);
-                // $new_request = array_copy($request, ["user_id" => $decoded_jwt->user_id]);
-                return;
+                $request["decoded_jwt"] = $decoded_jwt;
                 return $next($request);
             } catch (\Exception$e) {
                 $response = new Response("application/json", "Unauthorized request", ["error" => $e->getMessage()], 401);
