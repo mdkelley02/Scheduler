@@ -56,13 +56,10 @@ class AuthService
 
         try {
             $key = getenv('JWT_SECRET');
-            var_dump($key, 'THIS IS THE KEY');
-            return;
             $decoded = JWT::decode($jwt, $key, ['HS256']);
-            return $decoded;
+            return (array) $decoded;
         } catch (\Exception$e) {
             throw new \Exception("Invalid token" . $e->getMessage());
         }
-        return (array) $decoded;
     }
 }
