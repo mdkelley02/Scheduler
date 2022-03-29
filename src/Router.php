@@ -29,6 +29,9 @@ class Router
     public function route()
     {
         $hacky_prepend = "/public/index.php";
+
+        $_request = $_SERVER;
+
         if (!empty(file_get_contents('php://input')) && !json_decode(file_get_contents('php://input'))) {
             echo json_encode(["error" => "Invalid JSON body"]);
             return;
