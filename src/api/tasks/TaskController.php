@@ -1,7 +1,10 @@
 <?php
 
 declare (strict_types = 1);
+
 namespace App\api\tasks;
+
+ini_set('display_errors', 1);
 
 use App\api\auth\AuthService;
 use App\api\tasks\TaskDao;
