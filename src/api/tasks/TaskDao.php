@@ -80,12 +80,12 @@ class TaskDao
         $stmt->bindValue(":user_id", $user_id);
         $stmt->execute();
         $rows = $stmt->fetchAll();
-        echo var_dump($rows);
-        return;
         $tasks = [];
         foreach ($rows as $row) {
-            $tasks[] = $this->row_to_task($row);
+            $tasks[] = $row;
         }
+        echo var_dump($tasks);
+        return;
         return $tasks;
     }
 
