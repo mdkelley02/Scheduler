@@ -52,8 +52,6 @@ class TaskController extends Controller
 
         $api->register_middleware("/", function ($request, callable $next) {
             $authorization = getallheaders()['Authorization'];
-            echo var_dump($authorization);
-            return;
             if (!$authorization) {
                 $response = new Response("application/json", "Unauthorized", ["error" => "Missing Authorization header"], 400);
                 $response->send();
@@ -62,6 +60,8 @@ class TaskController extends Controller
             $jwt = explode(' ', $authorization)[1];
             try {
                 $decoded_jwt = $this->auth_service->decode_jwt($jwt);
+                echo var_dump($decoded_jwt);
+                return;
                 $request['decoded_jwt'] = $decoded_jwt;
             } catch (\Exception$e) {
                 $response = new Response("application/json", "Unauthorized request", ["error" => $e->getMessage()], 401);
