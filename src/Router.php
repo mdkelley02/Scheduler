@@ -28,6 +28,7 @@ class Router
 
     public function route()
     {
+        $hacky_prepend = "/public/index.php";
         $request = $_SERVER;
         if (!empty(file_get_contents('php://input')) && !json_decode(file_get_contents('php://input'))) {
             echo json_encode(["error" => "Invalid JSON body"]);
@@ -39,7 +40,7 @@ class Router
         $middleware = null;
         foreach ($this->controllers as $controller) {
             foreach ((array) $controller->middleware as $_middleware) {
-                if ($controller->prefix . $_middleware['path'] === $request['REDIRECT_URL'] || $controller->prefix . $_middleware['path'] === $request['REDIRECT_URL'] . '/') {
+                if ($hacky_prepend . $controller->prefix . $_middleware['path'] === $request['REDIRECT_URL'] || $hacky_prepend . $controller->prefix . $_middleware['path'] === $request['REDIRECT_URL'] . '/') {
                     $middleware = $_middleware;
                 }
             }
@@ -51,7 +52,7 @@ class Router
                 if ($request['REQUEST_METHOD'] !== $_handler['method']) {
                     continue;
                 }
-                if ($controller->prefix . $_handler['path'] === $request['REDIRECT_URL'] || $controller->prefix . $_handler['path'] === $request['REDIRECT_URL'] . '/') {
+                if ($hacky_prepend . $controller->prefix . $_handler['path'] === $request['REDIRECT_URL'] || $hacky_prepend . $controller->prefix . $_handler['path'] === $request['REDIRECT_URL'] . '/') {
                     $handler = $_handler;
                 }
             }
