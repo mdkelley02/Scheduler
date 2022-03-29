@@ -4,8 +4,6 @@ declare (strict_types = 1);
 
 namespace App\api\tasks;
 
-ini_set('display_errors', 1);
-
 use App\api\auth\AuthService;
 use App\api\tasks\TaskDao;
 use App\Controller;
@@ -101,8 +99,8 @@ class TaskController extends Controller
                     $request["body"]["start_time"],
                     $request["body"]["end_time"]
                 );
-                $response = new Response("application/json", "Task created", ["payload" => $request["body"]], 201);
-                $response->send();
+                // $response = new Response("application/json", "Task created", ["payload" => $request["body"]], 201);
+                // $response->send();
             } catch (\Exception$e) {
                 $response = new Response("application/json", "Invalid request", null, 400);
                 $response->send();
@@ -119,7 +117,7 @@ class TaskController extends Controller
             }
             try {
                 $tasks = $this->task_dao->get_all_tasks($user_id);
-                echo json_encode($tasks);
+                echo json_encode(array("data" => $tasks));
                 return;
                 $response = new Response("application/json", "Tasks retrieved", ["tasks" => $tasks], 200);
                 $response->send();
