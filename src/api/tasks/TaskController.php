@@ -68,10 +68,9 @@ class TaskController extends Controller
                 return;
             }
             try {
-                $decoded_jwt = $this->auth_service->decode_jwt($jwt);
-                // make a copy of request and add decoded_jwt to it
                 echo var_dump($request);
                 return;
+                $decoded_jwt = $this->auth_service->decode_jwt($jwt);
                 $request['decoded_jwt'] = $decoded_jwt;
 
                 return $next($request);
