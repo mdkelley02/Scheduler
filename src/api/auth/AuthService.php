@@ -4,6 +4,7 @@ namespace App\api\auth;
 
 use App\api\users\UserDao;
 use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthService
 {
