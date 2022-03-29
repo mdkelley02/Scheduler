@@ -47,7 +47,7 @@ class AuthService
             'user_id' => $user_id,
             'email' => $email,
         ];
-        $jwt = JWT::encode($payload, $key, 'HS256');
+        $jwt = JWT::encode($payload, new Key($key, 'HS256'));
         return $jwt;
     }
 
@@ -56,7 +56,7 @@ class AuthService
 
         try {
             $key = getenv('JWT_SECRET');
-            $decoded = JWT::decode($jwt, $key, ['HS256']);
+            $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
             return (array) $decoded;
         } catch (Exception $e) {
             throw new \Exception("Invalid token" . $e->getMessage());
