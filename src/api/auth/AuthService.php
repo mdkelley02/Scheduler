@@ -4,7 +4,6 @@ namespace App\api\auth;
 
 use App\api\users\UserDao;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class AuthService
 {
@@ -54,11 +53,13 @@ class AuthService
 
     public function decode_jwt($jwt)
     {
-        // $key = getenv('JWT_SECRET');
-        $key = "secret";
-        $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
-        echo var_dump($decoded);
-        return;
+        try {
+            $key = getenv('JWT_SECRET');
+            $decoded = JWT::decode($jwt, $key, ['HS256']);
+            return $decoded;
+        } catch (\Exception$e) {
+            throw new \Exception("Invalid token" . $e->getMessage());
+        }
         return (array) $decoded;
     }
 }
