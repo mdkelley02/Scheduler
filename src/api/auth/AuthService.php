@@ -48,7 +48,7 @@ class AuthService
             'user_id' => $user_id,
             'email' => $email,
         ];
-        $jwt = JWT::encode($payload, new Key($key, 'HS256'));
+        $jwt = JWT::encode($payload, new Key($key, 'HS256'), 'HS256');
         return $jwt;
     }
 
