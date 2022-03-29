@@ -47,7 +47,7 @@ class Controller {
           this.view.setErrorMessage(data["data"]["error"]);
           return;
         } else {
-          window.location.href = "/app/login";
+          window.location.href = "/public/index.php/app/login";
         }
       })
       .catch((error) => {

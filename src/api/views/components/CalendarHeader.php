@@ -11,7 +11,7 @@ namespace App\api\views;
     <div class="py-4">
         <div class="m-0 d-flex flex-wrap align-items-center">
             <div class="header-item">
-                <a href="/app/create-task"><button><i class="fa-solid fa-plus mr-2"></i>Create Task</button></a>
+                <a href="/public/index.php/app/create-task"><button><i class="fa-solid fa-plus mr-2"></i>Create Task</button></a>
             </div>
             <div class="header-item">
                 <button class="date-picker-button">

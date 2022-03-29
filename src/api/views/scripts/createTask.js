@@ -43,7 +43,7 @@ class Controller {
         this.view.timeToComplete.value
       )
       .then((data) => {
-        window.location.href = "/app/";
+        window.location.href = "/public/index.php/app/";
       })
       .catch((error) => console.error(error));
   };

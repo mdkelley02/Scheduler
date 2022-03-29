@@ -21,7 +21,7 @@ namespace App\api\views;
                     <div class="d-flex flex-column">
                         <div><input type="text" id="email" placeholder="Email"></div>
                         <div><input type="password" id="password" placeholder="Password"></div>
-                        <div><p>Don't have an account? <a href="/app/register">Register</a></p></div>
+                        <div><p>Don't have an account? <a href="/public/index.php/app/register">Register</a></p></div>
                         <div class="mt-2"><button id="loginButton">Login</button></div>
                     </div>
                 </div>

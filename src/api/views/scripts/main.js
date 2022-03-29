@@ -21,7 +21,7 @@ class SchedulerApiClient {
     this.token = token;
   }
   handleExpiredToken = () => {
-    window.location.href = "/app/login";
+    window.location.href = "/public/index.php/app/login";
   };
 
   login = (email, password) => {

@@ -45,7 +45,7 @@ class Controller {
           return;
         } else {
           this.localStorage.set("jwt", data["data"]["jwt"]);
-          window.location.href = "/app/";
+          window.location.href = "/public/index.php/app/";
         }
       })
       .catch((error) => {

@@ -2,7 +2,7 @@ const storage = new LocalStorage();
 
 const logout = () => {
   storage.remove("jwt");
-  window.location.href = "/app/login";
+  window.location.href = "/public/index.php/app/login";
 };
 
 document.addEventListener("DOMContentLoaded", () => {
