@@ -23,19 +23,9 @@ function isCurrent($route)
                         <i class="fa-solid fa-house mr-3"></i>Home
                     </div>
                 </a>
-                <a href="/public/index.php/app/calendar">
-                    <div class="menu-item <?php isCurrent("/app/calendar")?>">
-                        <i class="fas fa-calendar mr-3"></i>Calendar
-                    </div>
-                </a>
-                <a href="/public/index.php/app/create-task">
-                    <div class="menu-item <?php isCurrent("/app/create-task")?>">
-                        <i class="fa-solid fa-plus mr-3"></i>Create Task
-                    </div>
-                </a>
             </div>
             <div>
-                <div class="menu-item"><i class="fas fa-user mr-3"></i>Matthew Kelley</div>
+                <div class="menu-item"><i class="fas fa-user mr-3"></i><span id="userFullName"></span></div>
                 <div id="logoutButton" class="menu-item"><i class="fas fa-sign-out-alt mr-3"></i>Logout</div>
             </div>
         </div>

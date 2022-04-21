@@ -41,10 +41,14 @@ class UserDao
 
     public function get_user_by_id($id)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE user_id = :id");
         $stmt->bindParam(":id", $id);
         $stmt->execute();
-        $user = $stmt->fetch();
+        $row = $stmt->fetch();
+        if (!$row) {
+            return null;
+        }
+        $user = $this->row_to_user($row);
         return $user;
     }
 

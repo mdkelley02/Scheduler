@@ -9,6 +9,9 @@ namespace App\api\views;
     <?php echo file_get_contents(__DIR__ . "/../styles/calendar.css", true); ?>
 </style>
 <?php require_once __DIR__ . "/../components/Header.php"?>
+<script>
+    <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
+</script>
 <body class="home-page">
     <div class="row">
         <div class="col-xl-3 col-lg-4 col-md-4">
@@ -27,9 +30,7 @@ namespace App\api\views;
         </div>
     </div>
 </body>
-<script>
-    <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
-</script>
+
 <script>
     <?php echo file_get_contents(__DIR__ . "/../scripts/calendar.js", true); ?>
 </script>

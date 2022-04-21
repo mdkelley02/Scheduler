@@ -31,7 +31,6 @@ class Router
         $hacky_prepend = "/public/index.php";
 
         $_request = $_SERVER;
-
         if (!empty(file_get_contents('php://input')) && !json_decode(file_get_contents('php://input'))) {
             echo json_encode(["error" => "Invalid JSON body"]);
             return;
@@ -40,9 +39,11 @@ class Router
 
         // check if middleware exists
         $middleware = null;
+        // strip query string from request uri and store in a variable
+        $request_uri = explode("?", $_SERVER["REQUEST_URI"])[0];
         foreach ($this->controllers as $controller) {
             foreach ((array) $controller->middleware as $_middleware) {
-                if ($hacky_prepend . $controller->prefix . $_middleware['path'] === $_request['REQUEST_URI'] || $hacky_prepend . $controller->prefix . $_middleware['path'] === $_request['REQUEST_URI'] . '/') {
+                if ($hacky_prepend . $controller->prefix . $_middleware['path'] === $request_uri || $hacky_prepend . $controller->prefix . $_middleware['path'] === $request_uri . '/') {
                     $middleware = $_middleware;
                 }
             }
@@ -54,7 +55,7 @@ class Router
                 if ($_request['REQUEST_METHOD'] !== $_handler['method']) {
                     continue;
                 }
-                if ($hacky_prepend . $controller->prefix . $_handler['path'] === $_request['REQUEST_URI'] || $hacky_prepend . $controller->prefix . $_handler['path'] === $_request['REQUEST_URI'] . '/') {
+                if ($hacky_prepend . $controller->prefix . $_handler['path'] === $request_uri || $hacky_prepend . $controller->prefix . $_handler['path'] === $request_uri . '/') {
                     $handler = $_handler;
                 }
             }

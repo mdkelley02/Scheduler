@@ -99,8 +99,21 @@ class SchedulerApiClient {
   };
 
   deleteTask = (task_id) => {
-    return fetch(`/public/index.php/app/tasks/?task_id=${task_id}`, {
+    return fetch(`/public/index.php/tasks?task_id=${task_id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+      },
+    }).then((response) => {
+      if (response.status === 401) {
+        this.handleExpiredToken();
+      }
+      return response.json();
+    });
+  };
+
+  getMe = () => {
+    return fetch("/public/index.php/users/me", {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },

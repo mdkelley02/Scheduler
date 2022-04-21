@@ -43,12 +43,7 @@ class Controller {
         return response.json();
       })
       .then((data) => {
-        if (data["data"]["error"]) {
-          this.view.setErrorMessage(data["data"]["error"]);
-          return;
-        } else {
-          window.location.href = "/public/index.php/app/login";
-        }
+        window.location.href = "/public/index.php/app/login";
       })
       .catch((error) => {
         console.error(error);

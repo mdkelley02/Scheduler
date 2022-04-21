@@ -20,6 +20,7 @@ class TaskFetchFactory {
 class TasksModel {
   constructor() {
     this.tasks = [];
+    this.currentTask = null;
   }
   setTasks = (tasks) => {
     const final_tasks = {};
@@ -58,7 +59,7 @@ class TasksView {
       <div class="d-flex align-items-center mb-2">
       <div class="mr-2 task-preview__title">${task["title"]}</div>
       <button class="mr-2 ">Edit</button>
-      <button class="danger">Delete</button>
+      <button id="deleteTaskButton" class="danger">Delete</button>
       </div>
       <div class="pl-3">
         <div class="task-preview__field">
@@ -112,8 +113,17 @@ class TasksView {
     });
   };
 
-  renderTaskPreview(task) {
+  bindTaskDeleteButton = (handler) => {
+    const deleteButton =
+      this.taskPreviewContainer.querySelector("#deleteTaskButton");
+    deleteButton.addEventListener("click", (event) => {
+      handler(event);
+    });
+  };
+
+  renderTaskPreview(task, taskDeleteHandler) {
     this.taskPreviewContainer.innerHTML = this.buildTaskPreview(task);
+    this.bindTaskDeleteButton(taskDeleteHandler);
   }
 
   renderTasks(tasks) {
@@ -145,7 +155,18 @@ class TasksController {
     if (!task) {
       throw new Error("Task not found");
     }
-    this.view.renderTaskPreview(task);
+    this.view.renderTaskPreview(task, this.onTaskDeleteHandler);
+    this.model.currentTask = task;
+  };
+
+  onTaskDeleteHandler = (target) => {
+    const { task_id } = this.model.currentTask;
+    console.log(task_id);
+    this.taskFetchFactory.apiClient.deleteTask(task_id).then(() => {
+      console.log(this.model.tasks);
+      // const tasks = this.model.tasks.filter((task) => task.task_id !== task_id);
+      // this.model.setTasks();
+    });
   };
 
   setFetchMode = (mode) => {
@@ -158,6 +179,7 @@ class TasksController {
   fetchTasks = () => {
     this.taskFetchFactory.getTasks(this.fetchMode).then((data) => {
       const tasks = data.data.tasks;
+      console.log("tasks", tasks);
       this.model.setTasks(tasks);
       this.view.renderTasks(this.model.tasks);
       this.view.bindOnTaskClick(this.onTaskClickHandler);

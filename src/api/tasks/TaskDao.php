@@ -87,11 +87,13 @@ class TaskDao
         return $tasks;
     }
 
-    public function delete_task($task_id)
+    public function delete_task($user_id, $task_id)
     {
-        $sql = "delete from tasks where task_id = :task_id";
+        $sql = "delete from tasks where task_id = :task_id and user_id = :user_id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(":task_id", $task_id);
+        $stmt->bindValue(":user_id", $user_id);
         $stmt->execute();
+        return $stmt->rowCount();
     }
 }

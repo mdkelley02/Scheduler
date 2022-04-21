@@ -22,10 +22,6 @@ namespace App\api\views;
             <p>Description</p>
             <input type="text" id="description" placeholder="Description">
         </div>
-        <div class="row">
-            <div class="col-6"><p>Start Time</p><input type="text" id="startTime" placeholder="Start Time"></div>
-            <div class="col-6"><p>End Time</p><input type="text" id="endTime" placeholder="End Time"></div>
-        </div>
         <div><p>Due Date</p><input type="text" id="dueDate" placeholder="Due Date"></div>
         <div><p>Time to Complete</p><input type="text" id="timeToComplete" placeholder="Time to Complete (minutes)"></div>
         <div class="mt-4"><button id="submitButton">Submit</button></div>

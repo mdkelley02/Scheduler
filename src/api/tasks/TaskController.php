@@ -127,6 +127,46 @@ class TaskController extends Controller
                 return;
             }
         });
+
+        $api->register_endpoint("DELETE", "/", function ($request) {
+            $user_id = $request["decoded_jwt"]["user_id"];
+            if (!$user_id) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
+                $response->send();
+                return;
+            }
+            $query_string = $request["QUERY_STRING"];
+            if (!$query_string) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Missing query string"], 400);
+                $response->send();
+                return;
+            }
+            $task_id = explode("=", $query_string)[1];
+            if (!$task_id) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Missing task_id"], 400);
+                $response->send();
+                return;
+            }
+            if (!is_numeric($task_id)) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Invalid task_id"], 400);
+                $response->send();
+                return;
+            }
+            try {
+                $delete_count = $this->task_dao->delete_task($user_id, $task_id);
+                if ($delete_count == 0) {
+                    $response = new Response("application/json", "Invalid request", ["error" => "Task not found"], 400);
+                    $response->send();
+                    return;
+                }
+                $response = new Response("application/json", "Task deleted", ["task_id" => $task_id], 200);
+                $response->send();
+            } catch (Exception $e) {
+                $response = new Response("application/json", "Invalid request", null, 400);
+                $response->send();
+                return;
+            }
+        });
     }
 
 }
