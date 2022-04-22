@@ -100,8 +100,6 @@ class TaskController extends Controller
                     $request["body"]["start_time"],
                     $request["body"]["end_time"]
                 );
-                // $response = new Response("application/json", "Task created", ["payload" => $request["body"]], 201);
-                // $response->send();
             } catch (\Exception$e) {
                 $response = new Response("application/json", "Invalid request", null, 400);
                 $response->send();
