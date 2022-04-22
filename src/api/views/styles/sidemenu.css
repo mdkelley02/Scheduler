@@ -1,8 +1,7 @@
 .sidemenu {
-  border-right: 1px solid #ccc;
-  position: fixed;
-  top: 4rem;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   height: calc(100vh - 4.5rem);
+  background: white;
 }
 ul {
   list-style: none;

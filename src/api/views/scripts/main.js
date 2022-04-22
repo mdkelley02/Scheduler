@@ -19,7 +19,31 @@ class LocalStorage {
 class SchedulerApiClient {
   constructor(token) {
     this.token = token;
+    this.localStorage = new LocalStorage();
   }
+
+  validateToken = () => {
+    const jwt = this.localStorage.get("jwt");
+    if (!jwt) {
+      this.handleExpiredToken();
+    }
+    fetch("/public/index.php/app/auth/validate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    })
+      .then((response) => {
+        if (response.status === 401) {
+          this.handleExpiredToken();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   handleExpiredToken = () => {
     window.location.href = "/public/index.php/app/login";
   };
@@ -68,15 +92,8 @@ class SchedulerApiClient {
 
   getCompletedTasks = () => {};
 
-  createTask = (
-    title,
-    description,
-    dueDate,
-    startTime,
-    endTime,
-    timeToComplete
-  ) => {
-    return fetch("/public/index.php/tasks/", {
+  createTask = (title, description, dueDate, timeToComplete) => {
+    return fetch("/public/index.php/tasks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -86,15 +103,35 @@ class SchedulerApiClient {
         title: title,
         description: description,
         due_date: dueDate,
-        start_time: startTime,
-        end_time: endTime,
         time_to_complete: timeToComplete,
       }),
     }).then((response) => {
       if (response.status === 401) {
         this.handleExpiredToken();
       }
-      return response.json();
+      return { success: true };
+    });
+  };
+
+  updateTask = (task) => {
+    return fetch(`/public/index.php/tasks/?task_id=${task.task_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.token}`,
+      },
+      body: JSON.stringify({
+        title: task.title,
+        description: task.description,
+        due_date: task.dueDate,
+        time_to_complete: task.timeToComplete,
+        completed: task.completed,
+      }),
+    }).then((response) => {
+      if (response.status === 401) {
+        this.handleExpiredToken();
+      }
+      return { success: true };
     });
   };
 

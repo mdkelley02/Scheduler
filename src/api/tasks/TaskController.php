@@ -69,13 +69,14 @@ class TaskController extends Controller
                 $decoded_jwt = $this->auth_service->decode_jwt($jwt);
                 $request["decoded_jwt"] = $decoded_jwt;
                 return $next($request);
-            } catch (Exception $e) {
+            } catch (\Exception$e) {
                 $response = new Response("application/json", "Unauthorized request", ["error" => $e->getMessage()], 401);
                 $response->send();
                 return;
             }
         });
 
+        // create task
         $api->register_endpoint("POST", "/", function ($request) {
             $marshall_rc = marshall_task_create($request["body"]);
             if (!$marshall_rc) {
@@ -108,6 +109,7 @@ class TaskController extends Controller
             }
         });
 
+        // get all tasks
         $api->register_endpoint("GET", "/", function ($request) {
             $user_id = $request["decoded_jwt"]["user_id"];
             if (!$user_id) {
@@ -115,19 +117,33 @@ class TaskController extends Controller
                 $response->send();
                 return;
             }
-            try {
-                $tasks = $this->task_dao->get_all_tasks($user_id);
-                echo json_encode(array("data" => ["tasks" => $tasks]));
-                return;
-                $response = new Response("application/json", "Tasks retrieved", ["tasks" => $tasks], 200);
-                $response->send();
-            } catch (Exception $e) {
-                $response = new Response("application/json", "Invalid request", null, 400);
-                $response->send();
-                return;
+            $query_string = $request["QUERY_STRING"];
+            $query = explode("=", $query_string)[1];
+            switch ($query) {
+                case "all":
+                    $tasks = $this->task_dao->get_all_tasks($user_id);
+                    $response = new Response("application/json", "All tasks", ["tasks" => $tasks], 200);
+                    $response->send();
+                    break;
+                case "completed":
+                    $tasks = $this->task_dao->get_completed_tasks($user_id);
+                    $response = new Response("application/json", "All completed tasks", ["tasks" => $tasks], 200);
+                    $response->send();
+                    break;
+                case "incomplete":
+                    $tasks = $this->task_dao->get_incomplete_tasks($user_id);
+                    $response = new Response("application/json", "All incomplete tasks", ["tasks" => $tasks], 200);
+                    $response->send();
+                    break;
+                default:
+                    $tasks = $this->task_dao->get_all_tasks($user_id);
+                    $response = new Response("application/json", "All tasks", ["tasks" => $tasks], 200);
+                    $response->send();
+                    break;
             }
         });
 
+        // delete task by id
         $api->register_endpoint("DELETE", "/", function ($request) {
             $user_id = $request["decoded_jwt"]["user_id"];
             if (!$user_id) {
@@ -166,6 +182,58 @@ class TaskController extends Controller
                 $response->send();
                 return;
             }
+        });
+
+        // update task by id
+        $api->register_endpoint("PUT", "/", function ($request) {
+            $user_id = $request["decoded_jwt"]["user_id"];
+            if (!$user_id) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
+                $response->send();
+                return;
+            }
+            $query_string = $request["QUERY_STRING"];
+            if (!$query_string) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Missing query string"], 400);
+                $response->send();
+                return;
+            }
+            $task_id = explode("=", $query_string)[1];
+            if (!$task_id) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Missing task_id"], 400);
+                $response->send();
+                return;
+            }
+            if (!is_numeric($task_id)) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Invalid task_id"], 400);
+                $response->send();
+                return;
+            }
+            $marshall_rc = marshall_task_create($request["body"]);
+            if (!$marshall_rc) {
+                $response = new Response("application/json", "Invalid request", ["error" => "Incorrect payload for task update"], 400);
+                $response->send();
+                return;
+            }
+
+            $update_count = $this->task_dao->update_task(
+                $user_id,
+                $task_id,
+                $request["body"]["title"] ?? null,
+                $request["body"]["description"] ?? null,
+                $request["body"]["time_to_complete"] ?? null,
+                $request["body"]["due_date"] ?? null,
+                $request["body"]["start_time"] ?? null,
+                $request["body"]["end_time"] ?? null,
+                $request["body"]["completed"] ?? null
+            );
+            echo $update_count;
+            // if ($update_count == 0) {
+            //     $response = new Response("application/json", "Invalid request", ["error" => "Task not found"], 400);
+            //     $response->send();
+            //     return;
+            // }
+            // $response = new Response("application/json", "Task updated", ["task_id" => $task_id], 200);
         });
     }
 

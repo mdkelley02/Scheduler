@@ -87,6 +87,27 @@ class AuthController extends Controller
                 return;
             }
         });
+
+        $api::register_endpoint("POST", "/validate", function (array $request) {
+            $headers = getallheaders();
+            $auth_header = $headers["Authorization"];
+            $jwt = substr($auth_header, 7);
+            if (!$jwt) {
+                $response = new Response("Content-Type: application/json", "No JWT provided", ["error" => "No JWT provided"], 401);
+                $response->send();
+                return;
+            }
+            try {
+                $this->auth_service->decode_jwt($jwt);
+                $response = new Response("Content-Type: application/json", "JWT is valid");
+                $response->send();
+                return;
+            } catch (\Exception$e) {
+                $response = new Response("Content-Type: application/json", "JWT is invalid", ["error" => $e->getMessage()], 401);
+                $response->send();
+                return;
+            }
+        });
     }
 
 }

@@ -4,10 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title>Scheduler</title>
-
     <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
-
-    <!-- If you use the default popups, use this. -->
     <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
 
@@ -31,9 +28,13 @@
     <style>
         <?php echo file_get_contents(__DIR__ . "/../styles/reset.css", true); ?>
     </style>
+
     <style>
         <?php echo file_get_contents(__DIR__ . "/../styles/global.css", true); ?>
     </style>
 
-
+    <!-- main script -->
+    <script>
+      <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
+    </script>
 </head>

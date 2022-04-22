@@ -35,9 +35,6 @@ namespace App\api\views;
     </div>
 </body>
 <script>
-    <?php echo file_get_contents(__DIR__ . "/../scripts/main.js", true); ?>
-</script>
-<script>
     <?php echo file_get_contents(__DIR__ . "/../scripts/login.js", true); ?>
 </script>
 </html>

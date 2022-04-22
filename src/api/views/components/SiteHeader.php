@@ -4,7 +4,7 @@ namespace App\api\views;
 ?>
 
 <style>
-    <?php echo file_get_contents(__DIR__ . "/../styles/header.css", true); ?>
+    <?php echo file_get_contents(__DIR__ . "/../styles/siteheader.css", true); ?>
 </style>
 
 <div class="header">

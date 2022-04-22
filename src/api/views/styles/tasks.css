@@ -1,34 +1,68 @@
-.task {
-  background-color: rgba(104, 138, 255, 0.3);
-  color: var(--cta-color);
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 5px;
+.task-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    background-color: #f6f9fd;
+    border-radius: 5px;
 }
-.task:hover {
-  background: var(--cta-color);
-  color: white;
-  transition: all 0.1s ease-in-out;
-  cursor: pointer;
+
+.task-item__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-#taskContainer {
-  height: calc(100vh - 5rem);
-  overflow-y: scroll;
+
+table {
+    -moz-border-radius:1rem;
+    -webkit-border-radius:1rem;
+    border-radius:1rem;
+    background: white;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 1rem;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
 }
-#taskPreviewContainer {
-  position: fixed;
+table i {
+    color: var(--cta-color);
 }
-.task__preview__field {
-  margin-bottom: 1rem;
+thead {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.task-preview__label {
-  font-size: 1.2rem;
-  color: black;
-  margin-bottom: 0.1rem;
+tr, td {
+    padding: 1.25rem;
+    
 }
-.task-preview__value {
-  color: var(--text-color);
+
+tr:last-child td:first-child {
+    border-bottom-left-radius: 1rem;
 }
-.task-preview__title {
-  font-size: 1.5rem;
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 1rem;
+}
+tbody tr {
+    color: var(--text-color);
+    padding: 0 1rem;
+}
+tbody tr:hover {
+    background-color: #f6f9fd;
+    cursor: pointer;
+}
+
+tbody tr:last-child {
+    border-radius: 0 0 1rem 1rem;
+}
+
+.create-task-datepicker {
+    all: unset;
+    display: block;
+    font-family: "Poppins", sans-serif;
+    border: 1px solid #cbd1db;
+    border-radius: 5px;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0.5rem;
+    font-size: 0.9rem;
+    width: calc(100% - 1rem - 4px);
+    display: inline-block;
+    background-color: #f6f9fd;
 }

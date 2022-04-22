@@ -2,8 +2,8 @@
   color: var(--cta-color);
 }
 .header {
-  border-bottom: 1px solid #ccc;
-  background: var(--bg-color);
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 999;

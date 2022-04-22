@@ -44,6 +44,7 @@ class Controller {
           this.view.setErrorMessage(data["data"]["error"]);
           return;
         } else {
+          console.log(data["data"]["jwt"]);
           this.localStorage.set("jwt", data["data"]["jwt"]);
           window.location.href = "/public/index.php/app/";
         }

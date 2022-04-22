@@ -6,8 +6,11 @@
 html {
   font-size: 20px;
   --primary-color: #f5f5f5;
-  --cta-color: #688aff;
-  --cta-gradient: linear-gradient(to right, #688aff, #4776e6);
+  /* --cta-color: #688aff;
+  --cta-color-light: rgba(104, 138, 255, 0.3); */
+  --cta-color: rgb(49, 90, 240);
+  --cta-color-light: rgb(104, 138, 255, 0.3);
+  --cta-gradient: linear-gradient(to right, rgba(49, 90, 240, 0.8), rgb(49, 90, 240));
   --bg-color: #f0efef;
   --text-color: rgb(68, 68, 68);
   font-family: "Poppins", sans-serif;
@@ -33,10 +36,9 @@ html {
 }
 
 /* input ------------------------------------------ */
-input {
+input[type="text"], input[type="email"], input[type="password"] {
   all: unset;
   display: block;
-  font-family: "Poppins", sans-serif;
   border: 1px solid #cbd1db;
   border-radius: 5px;
   margin: 0.5rem 0;
@@ -44,24 +46,60 @@ input {
   font-size: 0.9rem;
   width: calc(100% - 1rem - 4px);
   display: inline-block;
-  background-color: #f6f9fd;
-}
-input:active,
-input:hover,
-input:focus {
-  border: 1px solid var(--cta-color);
+  background-color: white;
   transition: all 0.1s ease-in-out;
 }
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:active,
+input[type="email"]:active,
+input[type="password"]:active,
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="checkbox"]:hover,
+input[type="checkbox"]:active,
+input[type="checkbox"]:focus {
+  border: 1px solid var(--cta-color) !important;
+  box-shadow: 0 0 0 3px var(--cta-color-light) !important;
+}
+
+input:read-only,
+input[type="checkbox"]:disabled {
+  border: 1px solid #C0C1C9;
+  background-color: #F4F6F8;
+  color: #BEC1CE;
+  cursor: not-allowed;
+}
+input:read-only:hover {
+  box-shadow: none !important;
+  border: 1px solid #C0C1C9 !important;
+}
+
+input[type="checkbox"] {
+  /* all: unset; */
+  display: block;
+  margin: 0.5rem 0;
+  width: 1rem;
+  height: 1rem;
+  background-color: white;
+  border: 1px solid #cbd1db;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+
 
 /* button ------------------------------------------ */
 button {
   all: unset;
   font-family: "Poppins", sans-serif;
   border-radius: 5px;
-  padding: 0.4rem 0.6rem;
+  padding: 0.5rem 0.75rem;
   background-color: var(--cta-color);
   color: white;
-  font-size: 0.9rem;
   cursor: pointer;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -127,3 +165,99 @@ h4 {
   color: black;
   margin: 0.25rem 0;
 }
+
+.modal {
+  all: unset;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  all: unset;
+  width: 100%;
+  max-width: 700px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal[aria-hidden="true"] {
+  display: none;
+}
+
+.modal-close-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  border-radius: 100%;
+  transition: all 0.1s ease-in-out;
+}
+.modal-close-icon i {
+  display: block;
+  
+}
+.modal-close-icon:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+.modal-close-icon:hover i {
+  color: rgb(144, 38, 38);
+}
+
+
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  color: var(--cta-color);
+  margin: 0.25rem 0;
+}
+
+
+
+select {
+  all: unset;
+  display: block;
+  font-family: "Poppins", sans-serif;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.select-wrapper {
+  border-radius: 5px;
+  background-color: var(--cta-color-light);
+  color: var(--cta-color);
+  padding: 0.5rem;
+}
+
+.select-wrapper:hover {
+  box-shadow: inset 0 0 0 2px var(--cta-color);
+  transition: all 0.1s ease-in-out;
+}
+
+.select-wrapper i {
+  color: var(--cta-color);
+}
+
+option {
+  all: unset;
+  display: block;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  padding: 0.5rem 0.5rem;
+  border: none;
+}
+
+
