@@ -14,13 +14,8 @@ namespace App\api\views;
     <?php require_once __DIR__ . "/../components/SiteHeader.php"?>
     <body class="home-page">
         <div class="row g-0">
-            <div class="col-xl-2 col-lg-3"><?php
-try {
-    require_once __DIR__ . "/../components/SideMenu.php";
-} catch (\Exception$e) {
-    echo $e->getMessage();
-}
-?></div>
+            <?php echo __DIR__ ?>
+            <div class="col-xl-2 col-lg-3"><?php require_once __DIR__ . "/../components/SideMenu.php"?></div>
             <div class="col-xl-10 col-lg-9"><?php require_once __DIR__ . "/../components/Tasks.php"?></div>
         </div>
 
