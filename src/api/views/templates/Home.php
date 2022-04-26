@@ -15,7 +15,7 @@ namespace App\api\views;
     <body class="home-page">
         <div class="row g-0">
             <?php echo __DIR__ ?>
-            <div class="col-xl-2 col-lg-3"><?php echo file_get_contents(__DIR__ . "/../components/SideMenu.php", true) ?></div>
+
             <div class="col-xl-10 col-lg-9"><?php echo file_get_contents(__DIR__ . "/../components/Tasks.php", true) ?></div>
         </div>
 
