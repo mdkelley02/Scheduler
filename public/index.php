@@ -28,10 +28,10 @@ $input = array(
     "_REQUEST" => $_REQUEST,
     "_ENV" => $_ENV,
 );
-if (!defined('STDOUT')) {
-    define('STDOUT', fopen('php://stdout', 'wb'));
-}
+// if (!defined('STDOUT')) {
+//     define('STDOUT', fopen('php://stdout', 'wb'));
+// }
 
-fwrite(STDOUT, var_dump($input));
+fwrite("php://stderr" var_dump($input));
 $app = create_app();
 $app->run();
