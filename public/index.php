@@ -32,6 +32,6 @@ $input = array(
 //     define('STDOUT', fopen('php://stdout', 'wb'));
 // }
 
-fwrite("php://stderr" var_dump($input));
+fwrite("php://stderr", var_dump($input));
 $app = create_app();
 $app->run();
