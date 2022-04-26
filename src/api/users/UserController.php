@@ -39,11 +39,11 @@ class UserController extends Controller
         $api->register_endpoint("GET", "/me", function (array $request) {
             $user = $this->dao->get_user_by_id($request['decoded_jwt']['user_id']);
             if (!$user) {
-                $response = new Response("application/json", "Not Found", ["error" => "User not found"], 404);
+                $response = new Response("Content-Type: application/json", "Not Found", ["error" => "User not found"], 404);
                 $response->send();
                 return;
             }
-            $response = new Response("application/json", "User retrieved", ["user" => array(
+            $response = new Response("Content-Type: application/json", "User retrieved", ["user" => array(
                 "user_id" => $user['user_id'],
                 "full_name" => $user['full_name'],
                 "email" => $user['email'],
@@ -55,14 +55,14 @@ class UserController extends Controller
         $api->register_middleware("/me", function ($request, callable $next) {
             $headers = getallheaders();
             if (!$headers["Authorization"]) {
-                $response = new Response("application/json", "Unauthorized", ["error" => "Missing Authorization header"], 400);
+                $response = new Response("Content-Type: application/json", "Unauthorized", ["error" => "Missing Authorization header"], 400);
                 $response->send();
                 return;
             }
             $authorization = $headers["Authorization"];
             $jwt = explode(' ', $authorization)[1];
             if (!$jwt) {
-                $response = new Response("application/json", "Unauthorized", ["error" => "Malformed auth header"], 400);
+                $response = new Response("Content-Type: application/json", "Unauthorized", ["error" => "Malformed auth header"], 400);
                 $response->send();
                 return;
             }
@@ -71,7 +71,7 @@ class UserController extends Controller
                 $request["decoded_jwt"] = $decoded_jwt;
                 return $next($request);
             } catch (Exception $e) {
-                $response = new Response("application/json", "Unauthorized request", ["error" => $e->getMessage()], 401);
+                $response = new Response("Content-Type: application/json", "Unauthorized request", ["error" => $e->getMessage()], 401);
                 $response->send();
                 return;
             }

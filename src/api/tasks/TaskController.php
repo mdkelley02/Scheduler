@@ -54,14 +54,14 @@ class TaskController extends Controller
         $api->register_middleware("/", function ($request, callable $next) {
             $headers = getallheaders();
             if (!$headers["Authorization"]) {
-                $response = new Response("application/json", "Unauthorized", ["error" => "Missing Authorization header"], 400);
+                $response = new Response("Content-Type: application/json", "Unauthorized", ["error" => "Missing Authorization header"], 400);
                 $response->send();
                 return;
             }
             $authorization = $headers["Authorization"];
             $jwt = explode(' ', $authorization)[1];
             if (!$jwt) {
-                $response = new Response("application/json", "Unauthorized", ["error" => "Malformed auth header"], 400);
+                $response = new Response("Content-Type: application/json", "Unauthorized", ["error" => "Malformed auth header"], 400);
                 $response->send();
                 return;
             }
@@ -70,7 +70,7 @@ class TaskController extends Controller
                 $request["decoded_jwt"] = $decoded_jwt;
                 return $next($request);
             } catch (\Exception$e) {
-                $response = new Response("application/json", "Unauthorized request", ["error" => $e->getMessage()], 401);
+                $response = new Response("Content-Type: application/json", "Unauthorized request", ["error" => $e->getMessage()], 401);
                 $response->send();
                 return;
             }
@@ -80,13 +80,13 @@ class TaskController extends Controller
         $api->register_endpoint("POST", "/", function ($request) {
             $marshall_rc = marshall_task_create($request["body"]);
             if (!$marshall_rc) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Incorrect payload for task creation"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Incorrect payload for task creation"], 400);
                 $response->send();
                 return;
             }
             $user_id = $request["decoded_jwt"]["user_id"];
             if (!$user_id) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
                 $response->send();
                 return;
             }
@@ -101,7 +101,7 @@ class TaskController extends Controller
                     $request["body"]["end_time"]
                 );
             } catch (\Exception$e) {
-                $response = new Response("application/json", "Invalid request", null, 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", null, 400);
                 $response->send();
                 return;
             }
@@ -111,7 +111,7 @@ class TaskController extends Controller
         $api->register_endpoint("GET", "/", function ($request) {
             $user_id = $request["decoded_jwt"]["user_id"];
             if (!$user_id) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
                 $response->send();
                 return;
             }
@@ -120,22 +120,22 @@ class TaskController extends Controller
             switch ($query) {
                 case "all":
                     $tasks = $this->task_dao->get_all_tasks($user_id);
-                    $response = new Response("application/json", "All tasks", ["tasks" => $tasks], 200);
+                    $response = new Response("Content-Type: application/json", "All tasks", ["tasks" => $tasks], 200);
                     $response->send();
                     break;
                 case "completed":
                     $tasks = $this->task_dao->get_completed_tasks($user_id);
-                    $response = new Response("application/json", "All completed tasks", ["tasks" => $tasks], 200);
+                    $response = new Response("Content-Type: application/json", "All completed tasks", ["tasks" => $tasks], 200);
                     $response->send();
                     break;
                 case "incomplete":
                     $tasks = $this->task_dao->get_incomplete_tasks($user_id);
-                    $response = new Response("application/json", "All incomplete tasks", ["tasks" => $tasks], 200);
+                    $response = new Response("Content-Type: application/json", "All incomplete tasks", ["tasks" => $tasks], 200);
                     $response->send();
                     break;
                 default:
                     $tasks = $this->task_dao->get_all_tasks($user_id);
-                    $response = new Response("application/json", "All tasks", ["tasks" => $tasks], 200);
+                    $response = new Response("Content-Type: application/json", "All tasks", ["tasks" => $tasks], 200);
                     $response->send();
                     break;
             }
@@ -145,38 +145,38 @@ class TaskController extends Controller
         $api->register_endpoint("DELETE", "/", function ($request) {
             $user_id = $request["decoded_jwt"]["user_id"];
             if (!$user_id) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
                 $response->send();
                 return;
             }
             $query_string = $request["QUERY_STRING"];
             if (!$query_string) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Missing query string"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Missing query string"], 400);
                 $response->send();
                 return;
             }
             $task_id = explode("=", $query_string)[1];
             if (!$task_id) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Missing task_id"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Missing task_id"], 400);
                 $response->send();
                 return;
             }
             if (!is_numeric($task_id)) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Invalid task_id"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Invalid task_id"], 400);
                 $response->send();
                 return;
             }
             try {
                 $delete_count = $this->task_dao->delete_task($user_id, $task_id);
                 if ($delete_count == 0) {
-                    $response = new Response("application/json", "Invalid request", ["error" => "Task not found"], 400);
+                    $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Task not found"], 400);
                     $response->send();
                     return;
                 }
-                $response = new Response("application/json", "Task deleted", ["task_id" => $task_id], 200);
+                $response = new Response("Content-Type: application/json", "Task deleted", ["task_id" => $task_id], 200);
                 $response->send();
             } catch (Exception $e) {
-                $response = new Response("application/json", "Invalid request", null, 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", null, 400);
                 $response->send();
                 return;
             }
@@ -186,30 +186,30 @@ class TaskController extends Controller
         $api->register_endpoint("PUT", "/", function ($request) {
             $user_id = $request["decoded_jwt"]["user_id"];
             if (!$user_id) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Invalid Authorization"], 400);
                 $response->send();
                 return;
             }
             $query_string = $request["QUERY_STRING"];
             if (!$query_string) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Missing query string"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Missing query string"], 400);
                 $response->send();
                 return;
             }
             $task_id = explode("=", $query_string)[1];
             if (!$task_id) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Missing task_id"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Missing task_id"], 400);
                 $response->send();
                 return;
             }
             if (!is_numeric($task_id)) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Invalid task_id"], 400);
+                $response = new Response("Content-Type: application/json" "Invalid request", ["error" => "Invalid task_id"], 400);
                 $response->send();
                 return;
             }
             $marshall_rc = marshall_task_create($request["body"]);
             if (!$marshall_rc) {
-                $response = new Response("application/json", "Invalid request", ["error" => "Incorrect payload for task update"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Incorrect payload for task update"], 400);
                 $response->send();
                 return;
             }
@@ -225,13 +225,13 @@ class TaskController extends Controller
                 $request["body"]["end_time"] ?? null,
                 $request["body"]["completed"] ?? null
             );
-            echo $update_count;
+            // echo $update_count;
             // if ($update_count == 0) {
-            //     $response = new Response("application/json", "Invalid request", ["error" => "Task not found"], 400);
+            //     $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Task not found"], 400);
             //     $response->send();
             //     return;
             // }
-            // $response = new Response("application/json", "Task updated", ["task_id" => $task_id], 200);
+            // $response = new Response("Content-Type: application/json", "Task updated", ["task_id" => $task_id], 200);
         });
     }
 
