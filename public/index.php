@@ -18,20 +18,20 @@ function create_app()
     return $app;
 }
 // $input = fgets(STDIN);
-$input = array(
-    "_SERVER" => $_SERVER,
-    "_GET" => $_GET,
-    "_POST" => $_POST,
-    "_FILES" => $_FILES,
-    "_COOKIE" => $_COOKIE,
-    "_SESSION" => $_SESSION,
-    "_REQUEST" => $_REQUEST,
-    "_ENV" => $_ENV,
-);
+// $input = array(
+//     "_SERVER" => $_SERVER,
+//     "_GET" => $_GET,
+//     "_POST" => $_POST,
+//     "_FILES" => $_FILES,
+//     "_COOKIE" => $_COOKIE,
+//     "_SESSION" => $_SESSION,
+//     "_REQUEST" => $_REQUEST,
+//     "_ENV" => $_ENV,
+// );
 // if (!defined('STDOUT')) {
 //     define('STDOUT', fopen('php://stdout', 'wb'));
 // }
 
-fwrite("php://stderr", JSON_encode($input));
+// fwrite("php://stderr", JSON_encode($input));
 $app = create_app();
 $app->run();
