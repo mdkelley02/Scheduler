@@ -17,6 +17,17 @@ function create_app()
     $app->register_controller(new ViewController());
     return $app;
 }
-
+// $input = fgets(STDIN);
+$input = array(
+    "_SERVER" => $_SERVER,
+    "_GET" => $_GET,
+    "_POST" => $_POST,
+    "_FILES" => $_FILES,
+    "_COOKIE" => $_COOKIE,
+    "_SESSION" => $_SESSION,
+    "_REQUEST" => $_REQUEST,
+    "_ENV" => $_ENV,
+);
+fwrite(STDOUT, $input);
 $app = create_app();
 $app->run();
