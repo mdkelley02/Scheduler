@@ -203,7 +203,7 @@ class TaskController extends Controller
                 return;
             }
             if (!is_numeric($task_id)) {
-                $response = new Response("Content-Type: application/json" "Invalid request", ["error" => "Invalid task_id"], 400);
+                $response = new Response("Content-Type: application/json", "Invalid request", ["error" => "Invalid task_id"], 400);
                 $response->send();
                 return;
             }
